@@ -10,6 +10,7 @@ import {
 } from "./pages";
 
 import { loader as landingLoader } from "./pages/Landing";
+import { loader as singleLandingLoader } from "./pages/Cocktail";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,21 @@ const router = createBrowserRouter([
         errorElement: <SinglePageError />,
         element: <Landing />,
       },
-      { path: "cocktail/:id", element: <Cocktail /> },
-      { path: "newsletter", element: <Newsletter /> },
+      {
+        path: "cocktail/:id",
+        errorElement: <SinglePageError />,
+        element: <Cocktail />,
+        loader: singleLandingLoader,
+      },
+      {
+        path: "newsletter",
+        errorElement: <SinglePageError />,
+        element: <Newsletter />,
+      },
       {
         path: "about",
         element: <About />,
+        errorElement: <SinglePageError />,
         children: [
           { index: true, element: <h1>Company</h1> },
           { path: "person", element: <h1>Person</h1> },

@@ -7,7 +7,7 @@ export const loader = async () => {
     "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
   const searchTerm = "a";
   const response = await axios.get(`${cocktailSearchUrl}${searchTerm}`);
-  return { drinks: response.data.drink, searchTerm };
+  return { drinks: response.data.drinks, searchTerm };
 };
 const Landing = () => {
   const { drinks, searchTerm } = useLoaderData();
