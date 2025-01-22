@@ -1,7 +1,29 @@
+import axios from "axios";
+import { Form, redirect, useNavigation } from "react-router-dom";
+import { toast } from "react-toastify";
+
+const newsletterUrl = "https://www.course-api.com/cocktails-newsletter";
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  try {
+    const response = await axios.post(newsletterUrl, data);
+    console.log(response);
+    toast.success(response.data.msg);
+    return redirect("/");
+  } catch (err) {
+    toast.error(err?.response?.data?.msg);
+    console.error(err);
+    return err;
+  }
+};
 const Newsletter = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submit";
   return (
     <div>
-      <form className="form" method="post">
+      <Form className="form" method="POST">
         <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>
           our newsletter
         </h4>
@@ -14,7 +36,8 @@ const Newsletter = () => {
             id="name"
             name="name"
             className="form-input"
-            defaultValue="burcin"
+            required
+            Z
             placeholder="Your Name"
           />
         </div>
@@ -27,7 +50,7 @@ const Newsletter = () => {
             id="lastName"
             name="lastName"
             className="form-input"
-            defaultValue="eren"
+            required
             placeholder="Your Last Name"
           />
         </div>
@@ -40,7 +63,7 @@ const Newsletter = () => {
             id="email"
             name="email"
             className="form-input"
-            defaultValue="test@example.com"
+            required
             placeholder="Your Email"
           />
         </div>
@@ -48,10 +71,11 @@ const Newsletter = () => {
           type="submit"
           className="btn btn-block"
           style={{ marginTop: "0.5rem" }}
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? "Submiting" : "Submit"}
         </button>
-      </form>
+      </Form>
     </div>
   );
 };
